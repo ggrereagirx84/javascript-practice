@@ -1,26 +1,44 @@
 'use strict' 
 {
-  const header = ['========================', '現在持っているのタスク一覧', '========================'];
-  const task = ['掃除', '買い物', '散歩'];
+  const fizzStr = 'Fizz';
+  const buzzStr = 'Buzz';
+  const button = document.querySelector('button');
+  const target = document.getElementById('target');
 
-  function showTask() {
-    for (let i = 0; i < header.length; i++) {
-      console.log(header[i]);
-    }
-    for (let i = 0; i < task.length; i++) {
-      console.log(`${i} : ${task[i]}`);
-    }
+  function output(fizzNum, buzzNum) {
+    if (fizzNum === '' || buzzNum === '') {
+      addList(notInteger());
+    } else if (Number.isInteger(Number(fizzNum)) && Number.isInteger(Number(buzzNum))) {
+      for (let i = 1; i < 100; i++) {
+        if (i % fizzNum === 0 && i % buzzNum === 0) {
+          addList(fizzStr + buzzStr + ' ' + i);
+        } else if (i % fizzNum === 0) {
+          addList(fizzStr + ' ' + i);
+        } else if (i % buzzNum === 0) {
+          addList(buzzStr + ' ' + i);
+        }
+      }
+    } else {
+      addList(notInteger());
+    } 
   }
 
-  showTask();
+  function notInteger() {
+    return '整数値を入力してください'
+  }
 
-  let result = prompt('タスクを入力してください')
-  task.push(result);
-  
-  alert('新しいタスクを追加しました');
+  function addList(string) {
+    const li = document.createElement('li');
+    li.textContent = string;
+    target.appendChild(li);
+  }
 
-  showTask();
-
-  prompt('「確認,追加,削除,終了」の4つのいずれかを入力してください');
-
+  button.addEventListener('click', () => {
+    while (target.firstChild) {
+      target.removeChild(target.firstChild);
+    }
+    const fizzNum = document.getElementById('fizz').value;
+    const buzzNum = document.getElementById('buzz').value;
+    output(fizzNum, buzzNum);
+  });
 }
