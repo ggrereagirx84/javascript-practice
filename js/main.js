@@ -1,30 +1,44 @@
 'use strict' 
 {
-  const header = ['========================', '現在持っているのタスク一覧', '========================'];
-  const tasks = [
-    {content: '机を片付ける', genre: '掃除'},
-    {content: '牛乳を買う', genre: '買い物'},
-    {content: '散歩する', genre: '運動'},
-  ];
+  const fizzStr = 'Fizz';
+  const buzzStr = 'Buzz';
+  const button = document.querySelector('button');
+  const target = document.getElementById('target');
 
-  function showTask() {
-    header.forEach(element => console.log(element));
-    tasks.forEach((task, index) => {
-      console.log(`${index} ： [内容]${task.content}、[ジャンル]${task.genre}`)
-    });
+  function output(fizzNum, buzzNum) {
+    if (fizzNum === '' || buzzNum === '') {
+      addList(notInteger());
+    } else if (Number.isInteger(Number(fizzNum)) && Number.isInteger(Number(buzzNum))) {
+      for (let i = 1; i < 100; i++) {
+        if (i % fizzNum === 0 && i % buzzNum === 0) {
+          addList(fizzStr + buzzStr + ' ' + i);
+        } else if (i % fizzNum === 0) {
+          addList(fizzStr + ' ' + i);
+        } else if (i % buzzNum === 0) {
+          addList(buzzStr + ' ' + i);
+        }
+      }
+    } else {
+      addList(notInteger());
+    } 
   }
 
-  showTask();
+  function notInteger() {
+    return '整数値を入力してください'
+  }
 
-  const newContent = prompt('タスクを入力してください')
-  const newGenre = prompt('ジャンルを入力してください')
+  function addList(string) {
+    const li = document.createElement('li');
+    li.textContent = string;
+    target.appendChild(li);
+  }
 
-  tasks.push({content: newContent, genre: newGenre});
-  
-  alert('新しいタスクを追加しました');
-
-  showTask();
-
-  prompt('「確認,追加,削除,終了」の4つのいずれかを入力してください');
-
+  button.addEventListener('click', () => {
+    while (target.firstChild) {
+      target.removeChild(target.firstChild);
+    }
+    const fizzNum = document.getElementById('fizz').value;
+    const buzzNum = document.getElementById('buzz').value;
+    output(fizzNum, buzzNum);
+  });
 }
